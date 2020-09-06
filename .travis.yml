@@ -1,0 +1,21 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t tomta122/multi-dockers -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true tomta122/multi-dockers npm test
+
+after_success:
+  - docker build -t tomta122/multi-dockers-client ./client
+  - docker build -t tomta122/multi-dockers-server ./server
+  - docker build -t tomta122/multi-dockers-nginx ./nginx
+  - docker build -t tomta122/multi-dockers-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push tomta122/multi-dockers-client
+  - docker push tomta122/multi-dockers-server
+  - docker push tomta122/multi-dockers-nginx
+  - docker push tomta122/multi-dockers-worker
