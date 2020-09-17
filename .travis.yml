@@ -19,3 +19,15 @@ after_success:
   - docker push tomta122/multi-dockers-server
   - docker push tomta122/multi-dockers-nginx
   - docker push tomta122/multi-dockers-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-southeast-1"
+  app: "multi-docker"
+  env: "MultiDocker-env"
+  bucket_name: "elasticbeanstalk-ap-southeast-1-590317709756"
+  bucket_path: "Multi dockers"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
