@@ -27,6 +27,13 @@
       "image": "tomta122/multi-dockers-nginx",
       "hostname": "worker",
       "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": ["client", "server"],
       "memory": 128
     }
   ]
